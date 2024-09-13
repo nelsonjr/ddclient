@@ -46,7 +46,7 @@ subtest 'Testing protocol_ionos' => sub {
             'protocol' => 'ionos',
             'password' => 'mytestingpassword',
             'server'   => httpd()->endpoint(),
-            'wantip'   => '1.2.3.4',
+            'wantipv4' => '1.2.3.4',
         },
     );
 

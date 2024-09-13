@@ -7696,16 +7696,15 @@ sub nic_ionos_update {
     ## should improve to update in one pass
     for my $h (@_) {
         local $_l = pushlogctx($h);
-        my $ip = delete $config{$h}{'wantip'};
+        my $ip = delete $config{$h}{'wantipv4'};
         info("setting IP address to $ip");
         my $url = opt('server', $h) . "/dns/v1/dyndns?q=" . opt('password', $h);
         my $reply = geturl(proxy => opt('proxy'), url => $url);
-        last if !header_ok($reply);
 
-        if ($reply =~ /200 OK/) {
-            $recap{$h}{'ip'} = $ip;
+        if (header_ok($reply)) {
+            $recap{$h}{'ipv4'} = $ip;
             $recap{$h}{'mtime'} = $now;
-            $recap{$h}{'status'} = 'good';
+            $recap{$h}{'status-ipv4'} = 'good';
             success("IP address set to $ip");
         } else {
             $recap{$h}{'status'} = 'failed';
